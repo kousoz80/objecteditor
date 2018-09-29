@@ -1,0 +1,4 @@
+cd .
+adb uninstall $2.$3.$4
+adb install workspace/$1/bin/$1-debug.apk
+adb shell am start -a android.intentaction.MAIN -n $2.$3.$4/.$1
