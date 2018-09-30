@@ -30,8 +30,8 @@
 <NoSourceCreate>0</NoSourceCreate>
 <JavaEditCommand>leafpad</JavaEditCommand>
 <JavaViewCommand></JavaViewCommand>
-<HelpCommand></HelpCommand>
-<ApplicationType>4</ApplicationType>
+<HelpCommand>xdg-open ./help/manual.html</HelpCommand>
+<ApplicationType>0</ApplicationType>
 <CompileCommand0>./compile_java</CompileCommand0>
 <RunCommand0>./run_java</RunCommand0>
 <GUIDesignerCommand0>java -jar guidsin.jar -java</GUIDesignerCommand0>

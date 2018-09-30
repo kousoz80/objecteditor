@@ -1,4 +1,4 @@
-//オブジェクトエディタver1.2.1
+//オブジェクトエディタver1.2.2
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -14,6 +14,7 @@ import javax.swing.filechooser.*;
 
 //アプリケーションのクラス
 class App1{
+  static final String VERSION_STRING =" ObjectEditor version 1.2.2";
       
 
 // 主体オブジェクト
@@ -26,6 +27,7 @@ class App1{
   TextEditor     texteditor = null;
   InitialDialog  initialdialog = null;
   InputDialog    inputdialog = null;
+  Dialog1        dialog1 = null;
   Dialog2        dialog2 = null;
   Dialog3        dialog3 = null;
   Nxml           xml = null;
@@ -33,7 +35,7 @@ class App1{
   Object         properties = null;
   Object         clipboad = null;
 
-
+   
 //アプリケーションのプロパティ
 
   // 固定プロパティ(仕様に関係する部分で実行中の変更は不可)
@@ -1987,6 +1989,7 @@ class App1{
     propertywindow = new PropertyWindow();
     initialdialog = new InitialDialog();
     inputdialog = new InputDialog();    
+    dialog1 = new Dialog1();    
     dialog2 = new Dialog2();    
     dialog3 = new Dialog3();  
 
@@ -2425,6 +2428,11 @@ gui.buttonreset();
 
       if(command.equals("CLRALL")){
          clear_all( initialdialog.age() );
+gui.buttonreset();
+      }
+
+      if(command.equals("VERSION")){
+         dialog1.age(VERSION_STRING);
 gui.buttonreset();
       }
 
@@ -2942,6 +2950,7 @@ gui.buttonreset();
               JMenuItem applethtml;
               
           JMenu helpmenu;
+              JMenuItem objver;
               JMenuItem objhelp;
               JMenuItem javahelp;
 
@@ -3261,6 +3270,12 @@ gui.buttonreset();
         helpmenu.setFont( font );
         helpmenu.setMnemonic(KeyEvent.VK_H);
         menuBar.add(helpmenu);
+
+        objver = new JMenuItem("バージョン情報", KeyEvent.VK_V );
+        objver.setFont( font );
+        objver.setActionCommand("VERSION");
+        objver.addActionListener(this);
+        helpmenu.add(objver);
 
         objhelp = new JMenuItem("ObjectEditorのヘルプ", KeyEvent.VK_O );
         objhelp.setFont( font );
@@ -5730,6 +5745,11 @@ gui.buttonreset();
 gui.buttonreset();
       }
 
+      if(command.equals("VERSION")){
+         dialog1.age(VERSION_STRING);
+gui.buttonreset();
+      }
+
       if(command.equals("HELP")){
          execute( HelpCommand, false );
 gui.buttonreset();
@@ -6093,6 +6113,7 @@ gui.buttonreset();
               JMenuItem applethtml;
 
           JMenu helpmenu;
+              JMenuItem objver;
               JMenuItem objhelp;
               JMenuItem javahelp;
 
@@ -6377,6 +6398,11 @@ gui.buttonreset();
         helpmenu.setMnemonic(KeyEvent.VK_H);
         menuBar.add(helpmenu);
 
+        objver = new JMenuItem("バージョン情報", KeyEvent.VK_V );
+        objver.setFont( font );
+        objver.setActionCommand("VERSION");
+        objver.addActionListener(this);
+        helpmenu.add(objver);
 
         objhelp = new JMenuItem("ObjectEditorのヘルプ", KeyEvent.VK_O );
         objhelp.setFont( font );
@@ -10419,6 +10445,52 @@ gui.buttonreset();
     }
   
   }//~InputDialog
+  
+  class Dialog1 extends JDialog implements ActionListener{
+      JLabel msg;
+      int    mode;
+
+      Dialog1(){
+      setModal(true);
+      mode = 0;
+      JButton ok = new JButton( "OK" );
+      ok.setActionCommand("YES");
+      ok.addActionListener(this);
+      JPanel p2 = new JPanel( new FlowLayout( FlowLayout.CENTER, 10, 10 ) );
+      p2.add( ok );
+      msg = new JLabel(" ");
+      getContentPane().add( msg, BorderLayout.NORTH );
+      getContentPane().add( p2,  BorderLayout.CENTER );
+    }
+    
+    //ダイアログを表示
+    public void age( String ms ){
+      int x0, y0;
+
+      msg.setText( ms );
+      pack();
+
+      // ウィンドウの中央をもとめる
+      if( objecteditor.gui.isVisible() ){
+        x0 =  ( objecteditor.gui.getLocation().x + objecteditor.gui.getWidth() ) / 2;
+        y0 =  ( objecteditor.gui.getLocation().y + objecteditor.gui.getHeight()) / 2;
+      }
+      else{
+        x0 =  ( stateeditor.gui.getLocation().x + stateeditor.gui.getWidth() ) / 2;
+        y0 =  ( stateeditor.gui.getLocation().y + stateeditor.gui.getHeight()) / 2;
+      }
+
+      //ダイアログの中央をウィンドウの中央にあわせる
+      setLocation( new Point( x0 - getWidth() / 2, y0-getHeight() / 2 ) );
+      show();
+    }
+    
+    //ボタンがクリックされたら終了
+    public void actionPerformed( ActionEvent e ){
+      hide();
+    }
+  
+  }//~Dialog1
   
   class Dialog2 extends JDialog implements ActionListener{
       JLabel msg;

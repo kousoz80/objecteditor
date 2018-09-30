@@ -488,9 +488,9 @@ TEXTAREA;テキストボックス;null;34;26;328;205;0;0;0;255;204;255;Dialog;12
 <MainWinWidth>1024</MainWinWidth>
 <MainWinHeight>740</MainWinHeight>
 <MesgWinx0>0</MesgWinx0>
-<MesgWiny0>566</MesgWiny0>
-<MesgWinWidth>1024</MesgWinWidth>
-<MesgWinHeight>174</MesgWinHeight>
+<MesgWiny0>0</MesgWiny0>
+<MesgWinWidth>1032</MesgWinWidth>
+<MesgWinHeight>745</MesgWinHeight>
 <FileWinx0>36</FileWinx0>
 <FileWiny0>478</FileWiny0>
 <FileWinWidth>578</FileWinWidth>
@@ -510,7 +510,7 @@ TEXTAREA;テキストボックス;null;34;26;328;205;0;0;0;255;204;255;Dialog;12
 <NoSourceCreate>0</NoSourceCreate>
 <JavaEditCommand>leafpad</JavaEditCommand>
 <JavaViewCommand></JavaViewCommand>
-<HelpCommand></HelpCommand>
+<HelpCommand>xdg-open ./help/manual.html</HelpCommand>
 <ApplicationType>0</ApplicationType>
 <CompileCommand0>./compile_java</CompileCommand0>
 <RunCommand0>./run_java</RunCommand0>
@@ -603,7 +603,7 @@ Startup();
 <ImageEditCommand></ImageEditCommand>
 <CompilerFileName>javac.exe</CompilerFileName>
 <CompileCommand4>./compile_android Test com example test</CompileCommand4>
-<RunCommand4>echo no action</RunCommand4>
+<RunCommand4>./run_android Test com example test</RunCommand4>
 <GUIDesignerCommand4>java -jar guidsin.jar -android</GUIDesignerCommand4>
 <ImportFiles4>package com.example.test;
 

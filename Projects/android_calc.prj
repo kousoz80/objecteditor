@@ -2235,7 +2235,7 @@ BUTTON;Button0;0;0;120;42;28;0;0;0;192;192;192;Dialog;12;null;0;0;1;0;1;Button;
 <NoSourceCreate>0</NoSourceCreate>
 <JavaEditCommand>leafpad</JavaEditCommand>
 <JavaViewCommand></JavaViewCommand>
-<HelpCommand></HelpCommand>
+<HelpCommand>xdg-open ./help/manual.html</HelpCommand>
 <ApplicationType>4</ApplicationType>
 <CompileCommand0>./compile_java</CompileCommand0>
 <RunCommand0>./run_java</RunCommand0>
