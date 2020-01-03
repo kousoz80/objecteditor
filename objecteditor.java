@@ -1,4 +1,4 @@
-//オブジェクトエディタver1.2.2
+//オブジェクトエディタver1.2.4
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -14,7 +14,7 @@ import javax.swing.filechooser.*;
 
 //アプリケーションのクラス
 class App1{
-  static final String VERSION_STRING =" ObjectEditor version 1.2.2";
+  static final String VERSION_STRING =" ObjectEditor version 1.2.4";
       
 
 // 主体オブジェクト
@@ -35,7 +35,7 @@ class App1{
   Object         properties = null;
   Object         clipboad = null;
 
-   
+
 //アプリケーションのプロパティ
 
   // 固定プロパティ(仕様に関係する部分で実行中の変更は不可)
@@ -65,6 +65,7 @@ class App1{
                                    "Apkファイル(apk)/apk", 
                                    "basファイル(bas)/bas", 
                                    "実行ファイル(exe)/exe", 
+                                   "実行ファイル(efi)/efi", 
   };
 
   String   ProjectFileMode    =    "プロジェクトファイル(prj)/prj";
@@ -77,6 +78,7 @@ class App1{
                                    "Test.apk",
                                    "Test.bas",
                                    "Test.exe",
+                                   "Test.efi",
   };
 
   String[] AppTypes ={
@@ -87,7 +89,9 @@ class App1{
                                    "(androidアプリケーション)",
                                    "(Basicアプリケーション)",
                                    "(C言語 アプリケーション)",
+                                   "(oregengo-R言語 アプリケーション)",
   };
+
 
   // 可変プロパティ
   String SDKpath;
@@ -116,14 +120,15 @@ class App1{
   String HelpCommand;
 
 // ここより下はアプリケーションの種類( Javaアプリケーション or アプレット )ごとに存在する
-  int ApplicationType = 0;   //アプリケーションの種類( 0:Javaアプリケーション / 1:アプレット/2: C++コンソール/3:C++ Windows /4:android/5:Basic
+  int ApplicationType = 0;   //アプリケーションの種類( 0:Javaアプリケーション / 1:アプレット/2: C++コンソール/3:C++ Windows /4:android/5:Basic/6:C言語/7:oregengo-R
 
-  String[] CompileCommand     = { "", "", "", "", "", "", "" };
-  String[] RunCommand         = { "", "", "", "", "", "", "" };
-  String[] GUIDesignerCommand = { "", "", "", "", "", "", "" };
-  String[] ImportFiles        = { "", "", "", "", "", "", "" };
-  String[] ProgramStartupCode = { "", "", "", "", "", "", "" };
-  String[] NativeHelpCommand  = { "", "", "", "", "" , "", ""};
+  String[] CompileCommand     = { "", "", "", "", "", "", "", "" };
+  String[] RunCommand         = { "", "", "", "", "", "","", "" };
+  String[] GUIDesignerCommand = { "", "", "", "", "", "","", "" };
+  String[] ImportFiles        = { "", "", "", "", "", "","",  "" };
+  String[] ProgramStartupCode = { "", "", "", "", "", "","",  "" };
+  String[] NativeHelpCommand  = { "", "", "", "", "" , "", "", ""};
+  String[] IDF_LocalVariable ={ "","","","","","","","" };
 
   // 共通メソッドを記述
 
@@ -350,6 +355,7 @@ class App1{
                           + " }\n";
     ProgramStartupCode[4] = " Activity ACTIVITY;\n";
 
+    IDF_LocalVariable[5]="%";
     CompileCommand[5] = "";
     RunCommand[5] = "";
     GUIDesignerCommand[5] = "";
@@ -365,6 +371,14 @@ class App1{
     ProgramStartupCode[6] = "int main(){\n"
                           + "  _PSTART();\n"
                           + "}\n";
+
+    IDF_LocalVariable[7]="\\";
+    CompileCommand[7] = "";
+    RunCommand[7] = "";
+    GUIDesignerCommand[7] = "";
+    NativeHelpCommand[7]  = "";
+    ImportFiles[7]        = "";
+    ProgramStartupCode[7] = " _PSTART\nend";
 
   }//~initProperty(){
 
@@ -450,6 +464,7 @@ class App1{
     ProgramStartupCode[4] = ((t=xml.属性値( properties, "ProgramStartupCode4" ))==null?"":t);
     NativeHelpCommand[4] = ((t=xml.属性値( properties, "NativeHelpCommand4" ))==null?"":t);
 
+    IDF_LocalVariable[5] = ((t=xml.属性値( properties, "IDF_LocalVariable5" ))==null?"%":t);
     CompileCommand[5] = ((t=xml.属性値( properties, "CompileCommand5" ))==null?"":t);
     RunCommand[5] = ((t=xml.属性値( properties, "RunCommand5" ))==null?"":t);
     GUIDesignerCommand[5] = ((t=xml.属性値( properties, "GUIDesignerCommand5" ))==null?"":t);
@@ -463,6 +478,14 @@ class App1{
     ImportFiles[6] = ((t=xml.属性値( properties, "ImportFiles6" ))==null?"":t);
     ProgramStartupCode[6] = ((t=xml.属性値( properties, "ProgramStartupCode6" ))==null?"":t);
     NativeHelpCommand[6] = ((t=xml.属性値( properties, "NativeHelpCommand6" ))==null?"":t);
+
+    IDF_LocalVariable[7] = ((t=xml.属性値( properties, "IDF_LocalVariable7" ))==null?"\\":t);
+    CompileCommand[7] = ((t=xml.属性値( properties, "CompileCommand7" ))==null?"":t);
+    RunCommand[7] = ((t=xml.属性値( properties, "RunCommand7" ))==null?"":t);
+    GUIDesignerCommand[7] = ((t=xml.属性値( properties, "GUIDesignerCommand7" ))==null?"":t);
+    ImportFiles[7] = ((t=xml.属性値( properties, "ImportFiles7" ))==null?"":t);
+    ProgramStartupCode[7] = ((t=xml.属性値( properties, "ProgramStartupCode7" ))==null?"":t);
+    NativeHelpCommand[7] = ((t=xml.属性値( properties, "NativeHelpCommand7" ))==null?"":t);
 
     if( objecteditor != null ){
 
@@ -593,6 +616,7 @@ class App1{
     xml.属性値をセット( properties, "ProgramStartupCode4", ProgramStartupCode[4] );
     xml.属性値をセット( properties, "NativeHelpCommand4", NativeHelpCommand[4] );
 
+    xml.属性値をセット( properties, "IDF_LocalVariable5", IDF_LocalVariable[5] );
     xml.属性値をセット( properties, "CompileCommand5", CompileCommand[5] );
     xml.属性値をセット( properties, "RunCommand5", RunCommand[5] );
     xml.属性値をセット( properties, "GUIDesignerCommand5", GUIDesignerCommand[5] );
@@ -606,6 +630,14 @@ class App1{
     xml.属性値をセット( properties, "ImportFiles6", ImportFiles[6] );
     xml.属性値をセット( properties, "ProgramStartupCode6", ProgramStartupCode[6] );
     xml.属性値をセット( properties, "NativeHelpCommand6", NativeHelpCommand[6] );
+
+    xml.属性値をセット( properties, "IDF_LocalVariable7", IDF_LocalVariable[7] );
+    xml.属性値をセット( properties, "CompileCommand7", CompileCommand[7] );
+    xml.属性値をセット( properties, "RunCommand7", RunCommand[7] );
+    xml.属性値をセット( properties, "GUIDesignerCommand7", GUIDesignerCommand[7] );
+    xml.属性値をセット( properties, "ImportFiles7", ImportFiles[7] );
+    xml.属性値をセット( properties, "ProgramStartupCode7", ProgramStartupCode[7] );
+    xml.属性値をセット( properties, "NativeHelpCommand7", NativeHelpCommand[7] );
 
   }//~restoreProperty()
 
@@ -827,16 +859,25 @@ class App1{
     else return("");
   }
 
-// オブジェクトやピンのフルパス名を返す(Basic, C言語) 
+// オブジェクトやピンのフルパス名を返す(Basic, C言語, oregengo-R) 
   public String getAbsoluteName2( Object elem ){
+    String buf =  null;
+    if( xml.属性値( xml.親要素( elem ), "レイアウト" ) == null ) buf =  "_"+elem.hashCode();
     String typ = xml.要素の名前( elem );
-    String buf =  "_"+elem.hashCode();
-    if( typ.equals("state" ) ) buf = xml.要素のID( elem );
-    else if( typ.equals("pin" ) ) {
-      if( xml.要素のID( elem ).equals("_PSTART") ) buf = "_PSTART()";
-	  else buf = buf + "_" + xml.属性値( elem, "text" );
+    if( typ.equals("state" ) ){
+       buf = xml.要素のID( elem );
     }
-    else if( typ.equals("operation" ) ) buf = buf +  "_" + xml.属性値( elem, "inpintext" ) ;
+    else if( typ.equals("pin" ) ) {
+       if( xml.要素のID( elem ).equals("_PSTART") ) buf = "_PSTART()";
+	     else{
+          if( buf==null ) buf = xml.属性値( elem, "text" );
+          else  buf = buf + "_" + xml.属性値( elem, "text" );
+       }
+    }
+    else if( typ.equals("operation" ) ){
+       if( buf==null ) buf = xml.属性値( elem, "inpintext" );
+       else  buf = buf + "_" + xml.属性値( elem, "inpintext" ) ;
+    }
     return buf;
   }
 
@@ -1422,7 +1463,7 @@ class App1{
     if( element_name.equals("codeclip") ){
       String parent = getAbsoluteName2( xml.親要素( element ) );
       String buf = xml.属性値( element, "codetext" ) + "\n";
-      buf = Xreplace( buf, "%", parent );
+      buf = Xreplace( buf, IDF_LocalVariable[5], parent );
       clsbuf.append( buf );
     }
 
@@ -1524,7 +1565,6 @@ class App1{
     else if( element_name.equals("aobject") ){
       StringBuffer codebuf = new StringBuffer(""); 
       String cls = xml.属性値( element, "objectname" );
-
       list = xml.子要素のリスト( element, "codeclip" );
       for( i = 0; i < list.size(); i++ ){
         compile_BASIC( list.get(i), codebuf, funcbuf, initbuf, null );
@@ -1604,7 +1644,7 @@ class App1{
         StringTokenizer tk2 = new StringTokenizer( getsignature( (String)( signal.get(j) ) ), ","  );
         String base2 = getbase( (String)( signal.get(j) ) );
         while( tk1.hasMoreTokens() &&  tk2.hasMoreTokens() ){
-          buf = buf + Xreplace( tk2.nextToken(), "%", base2 ) +"="+ Xreplace( tk1.nextToken(), "%", base ) +"\n";
+          buf = buf + Xreplace( tk2.nextToken(), IDF_LocalVariable[5], base2 ) +"="+ Xreplace( tk1.nextToken(), IDF_LocalVariable[5], base ) +"\n";
 	    }
         buf = buf + "gosub @"+ base2+"\n";
       }
@@ -1634,13 +1674,13 @@ class App1{
         StringTokenizer tk2 = new StringTokenizer( getsignature( (String)( signal.get(j) ) ), ","  );
         String base2 = getbase( (String)( signal.get(j) ) );
         while( tk1.hasMoreTokens() ){
-          buf = buf + Xreplace( tk2.nextToken(), "%", base2 ) +"="+ Xreplace( tk1.nextToken(), "%", base ) +"\n";
+          buf = buf + Xreplace( tk2.nextToken(), IDF_LocalVariable[5], base2 ) +"="+ Xreplace( tk1.nextToken(), IDF_LocalVariable[5], base ) +"\n";
 	    }
         buf = buf + "gosub @"+ base2+"\n";
       }
       if(transition)  buf = buf + "gosub @"+ xml.属性値( element, "state2" ) + parent + "\n";
       buf = buf + "return\n";
-      buf = Xreplace( buf, "%", base );
+      buf = Xreplace( buf, IDF_LocalVariable[5], base );
 
       funcbuf.append( buf );
     }
@@ -1781,7 +1821,6 @@ class App1{
       String cls = xml.属性値( element, "objectname" );
       String id = getAbsoluteName2( element );
       clsbuf.append( "int STATE" + id + ", STATE2" + id + ";\n" );
-
       list = xml.子要素のリスト( element, "codeclip" );
       for( i = 0; i < list.size(); i++ ){
         compile_C( list.get(i), codebuf, funcbuf, initbuf, null );
@@ -1922,6 +1961,263 @@ class App1{
   }
 
 
+  // oregengo_Rプログラムを作成する
+  public void compile_oregengo_R( Object element, StringBuffer clsbuf, StringBuffer funcbuf, StringBuffer initbuf, Vector signal ){
+    int i, j;
+    Vector list;
+
+    String element_name = xml.要素の名前( element );
+    String comp_name = xml.要素のID( element );
+
+    if( element_name.equals("codeclip") ){
+      String parent = getAbsoluteName2( xml.親要素( element ) );
+      String buf = xml.属性値( element, "codetext" ) + "\n";
+      buf = Xreplace( buf, IDF_LocalVariable[7], parent );
+      clsbuf.append( buf );
+    }
+
+    else if( element_name.equals("xobject") ){
+      StringBuffer codebuf = new StringBuffer(""); 
+      String cls = xml.属性値( element, "objectname" );
+
+      list = xml.子要素のリスト( element, "codeclip" );
+      for( i = 0; i < list.size(); i++ ){
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, null );
+      }
+
+      Vector signal2 = new Vector();
+      list = xml.子要素のリスト( element, "relation" );
+      for( i = 0; i < list.size(); i++ ){
+        Object pin1, pin2;
+        String pin1name = xml.属性値( list.get(i), "pin1name" );
+        String pin2name = xml.属性値( list.get(i), "pin2name" );
+
+        if( pin2name.charAt( pin2name.length()-1 ) == ')' ){  // pin2 is pinlabel
+          Object base = xml.子要素( element, getbase( pin2name ) );
+          pin2 = xml.子要素( base, getsignature( pin2name ) );
+        }
+        else{
+          pin2 = xml.子要素( element, pin2name );             // pin2 is pin or operation
+        }
+
+        signal2.add( new StringCouple( pin1name, getAbsoluteName2( pin2 ) ) );
+      }
+        
+      list = xml.子要素のリスト( element, "pin" );
+      for( i = 0; i < list.size(); i++ ){
+        String name = xml.要素のID( list.get(i) );
+        Vector method= new Vector();
+
+        for( j = signal2.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal2.get(j) );
+          if( name.equals( k.String1 ) ){
+            method.add( k.String2 );
+            signal2.remove( k );
+          }
+        }
+        for( j = signal.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal.get(j) );
+          if( name.equals( k.String1 ) ){
+            method.add( k.String2 );
+            signal.remove( k );
+          }
+        }
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, method );
+      }
+       
+      list = xml.子要素のリスト( element, "operation" );
+      for( i = 0; i < list.size(); i++ ){
+        String name = xml.要素のID( list.get(i) );
+        Vector method= new Vector();
+
+        for( j = signal2.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal2.get(j) );
+          if( name.equals( k.String1 ) ){
+            method.add( k.String2 );
+            signal2.remove( k );
+          }
+        }
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, method );
+      }
+
+      list = xml.子要素のリスト( element, "aobject" );
+      for( i = 0; i < list.size(); i++ ){
+        String name = xml.要素のID( list.get(i) );
+        Vector method= new Vector();
+        for( j = signal2.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal2.get(j) );
+          if( ( k.String1.charAt( k.String1.length()-1 ) == ')' ) && name.equals( getbase( k.String1 ) ) ){
+            method.add( new StringCouple( getsignature( k.String1 ), k.String2 ) );
+            signal2.remove( k );
+          }
+        }
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, method );
+      }
+
+      list = xml.子要素のリスト( element, "xobject" );
+      for( i = 0; i < list.size(); i++ ){
+        String name = xml.要素のID( list.get(i) );
+        Vector method= new Vector();
+        for( j = signal2.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal2.get(j) );
+          if( ( k.String1.charAt( k.String1.length()-1 ) == ')' ) && name.equals( getbase( k.String1 ) ) ){
+            method.add( new StringCouple( getsignature( k.String1 ), k.String2 ) );
+            signal2.remove( k );
+          }
+        }
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, method );
+      }
+         
+    }
+
+    else if( element_name.equals("aobject") ){
+      StringBuffer codebuf = new StringBuffer(""); 
+      String cls = xml.属性値( element, "objectname" );
+      String id = getAbsoluteName2( element );
+      clsbuf.append( " long STATE" + id + "#,STATE2" + id + "#\n" );
+      list = xml.子要素のリスト( element, "codeclip" );
+      for( i = 0; i < list.size(); i++ ){
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, null );
+      }
+
+      Vector signal2 = new Vector();
+      list = xml.子要素のリスト( element, "action" );
+      for( i = 0; i < list.size(); i++ ){
+        Object comp1, comp2;
+        String comp1name = xml.属性値( list.get(i), "comp1name" );
+        String comp2name = xml.属性値( list.get(i), "comp2name" );
+        comp2 = xml.子要素( element, comp2name );
+        signal2.add( new StringCouple( comp1name, getAbsoluteName2(comp2) ) );
+      }
+        
+      list = xml.子要素のリスト( element, "pin" );
+      for( i = 0; i < list.size(); i++ ){
+        String name = xml.要素のID( list.get(i) );
+        Vector method = new Vector();
+
+        for( j = signal2.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal2.get(j) );
+          if( name.equals( k.String1 ) ){
+            method.add( k.String2 );
+            signal2.remove( k );
+          }
+        }
+        for( j = signal.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal.get(j) );
+          if( name.equals( k.String1 ) ){
+            method.add( k.String2 );
+            signal.remove( k );
+          }
+        }
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, method );
+      }
+         
+      Vector statemethod = new Vector();
+      list = xml.子要素のリスト( element, "operation" );
+      for( i = 0; i < list.size(); i++ ){
+        Vector method= new Vector();
+        Object op = list.get(i);
+
+        if( parseInt( xml.属性値( op, "inpinlinkcount" ) ) == 0 ){
+          statemethod.add( new StringCouple( xml.属性値( op, "state1" ), getAbsoluteName2( op ) ) );
+        }
+
+        String name = xml.要素のID( op );
+        for( j = signal2.size()-1; j >= 0; j-- ){
+          StringCouple k = (StringCouple)( signal2.get(j) );
+          if( name.equals( k.String1 ) ){
+            method.add( k.String2 );
+            signal2.remove( k );
+          }
+        }
+        compile_oregengo_R( op, clsbuf, funcbuf, initbuf, method );
+      }
+
+      list = xml.子要素のリスト( element, "state" );
+      for( i = 0; i < list.size(); i++ ){
+        compile_oregengo_R( list.get(i), clsbuf, funcbuf, initbuf, statemethod );
+      }
+
+      initbuf.append( " _SINIT"+getAbsoluteName2( element ) +"\n" );
+    }
+
+    else if( element_name.equals("pin") ){
+      String parent = getAbsoluteName2( xml.親要素( element ) );
+      String path = getAbsoluteName2( element );
+      String base = getbase( path );
+      String signature = getsignature( path );
+      boolean transition = xml.要素の名前( xml.親要素( element ) ).equals("aobject");
+      String buf = ""+base +":\n";
+      if(transition) buf =buf + " STATE" + parent +"#, STATE2" + parent + "#=\n";
+      for( j = 0; j < signal.size(); j++ ){
+        StringTokenizer tk1 = new StringTokenizer( signature, ","  );
+        StringTokenizer tk2 = new StringTokenizer( getsignature( (String)( signal.get(j) ) ), ","  );
+        String base2 = getbase( (String)( signal.get(j) ) );
+        while( tk1.hasMoreTokens() &&  tk2.hasMoreTokens() ){
+          buf = buf + " "+ Xreplace( tk1.nextToken(), IDF_LocalVariable[7], base )+", "+Xreplace( tk2.nextToken(), IDF_LocalVariable[7], base2 ) +"=\n";
+	    }
+        buf = buf + " "+ base2+"\n";
+      }
+      buf = buf + "\n end\n";
+      funcbuf.append( buf );
+    }
+
+    else if( element_name.equals("operation" ) ){
+      String parent = getAbsoluteName2( xml.親要素( element ) );
+      String path = getAbsoluteName2( element );
+      String base = getbase( path );
+      String outpin = xml.属性値( element, "outpintext" );
+      String signature = getsignature( outpin );
+      String code = xml.属性値( element, "codetext" );
+
+      boolean transition = xml.要素の名前( xml.親要素( element ) ).equals("aobject");
+      int inpinlinkcount = parseInt( xml.属性値( element, "inpinlinkcount" ) );
+      String buf = ""+base +":\n";
+      if( transition && ( inpinlinkcount != 0 ) ){
+         buf = buf +  " if  STATE2" + parent + "#<>" +
+         xml.子要素( xml.親要素( element ), xml.属性値( element, "state1" ) ).hashCode()
+         + " then  end\n";
+      }
+      buf = buf + code;
+      for( j = 0; j < signal.size(); j++ ){
+        StringTokenizer tk1 = new StringTokenizer( signature, ","  );
+        StringTokenizer tk2 = new StringTokenizer( getsignature( (String)( signal.get(j) ) ), ","  );
+        String base2 = getbase( (String)( signal.get(j) ) );
+        while( tk1.hasMoreTokens() ){
+          buf = buf + " "+Xreplace( tk1.nextToken(), IDF_LocalVariable[7], base )+", "+Xreplace( tk2.nextToken(), IDF_LocalVariable[7], base2 ) +"=\n";
+	    }
+        buf = buf + " "+ base2+"\n";
+      }
+      if(transition)  buf = buf + " "+ xml.属性値( element, "state2" ) + parent + "\n";
+      buf = buf + "\n end\n";
+      buf = Xreplace( buf, IDF_LocalVariable[7], base );
+
+      funcbuf.append( buf );
+    }
+
+    else if( element_name.equals("state") ){
+      String parent = getAbsoluteName2( xml.親要素( element ) );
+      String base = getAbsoluteName2( element );
+      String buf = ""+base + parent +":\n";
+      buf= buf + " " + element.hashCode()+", STATE" + parent + "#=\n";
+      for( j = signal.size()-1; j >= 0; j-- ){
+        StringCouple k = (StringCouple)( signal.get(j) );
+        if( k.String1.equals( comp_name ) ){
+          buf = buf + " "+ getbase( k.String2 ) +"\n";
+          signal.remove( k );
+        }
+      }
+      buf = buf + "\n end\n";
+      funcbuf.append( buf );
+    }
+
+    else{
+      reportError( "can\'t compile for " + element_name + "\n" );
+    }
+
+  }
+
+
   //１対の文字列(コンパイルで検索のときに使う)
   class StringCouple{
     String String1;
@@ -1952,6 +2248,7 @@ class App1{
                       new XFile("javatext.java"),
                       new XFile("test.bas"),
                       new XFile("test.c"),
+                      new XFile("test.r"),
                     };
 
     ObjectLib =     new XFile[] {
@@ -1962,6 +2259,7 @@ class App1{
                       new XFile("ObjectLib_J"),
                       new XFile("ObjectLib_B"),
                       new XFile("ObjectLib_C"),
+                      new XFile("ObjectLib_R"),
                     };
 
     CurrentDir   =  new XFile( "." );
@@ -2511,6 +2809,19 @@ gui.buttonreset();
               String s = ImportFiles[ApplicationType]
                        + clsbuf.toString() 
                        + initbuf.toString() + "\n}\n"
+                       + ProgramStartupCode[ApplicationType]
+                       + funcbuf.toString();
+              s = Xreplace( s, "%AppName%", xml.属性値( project, "objectname" ) );
+              SourceFile[ApplicationType].Xappend( s );
+            } 
+            else  if( ApplicationType == 7 ){
+              StringBuffer clsbuf  = new StringBuffer("");
+              StringBuffer funcbuf = new StringBuffer("");
+              StringBuffer initbuf = new StringBuffer("");
+              compile_oregengo_R( treetool.top.element, clsbuf, funcbuf, initbuf, new Vector() );
+              String s = ImportFiles[ApplicationType]
+                       + clsbuf.toString() 
+                       + "\n_INIT_STATES:\n"+initbuf.toString()+"\n end\n"
                        + ProgramStartupCode[ApplicationType]
                        + funcbuf.toString();
               s = Xreplace( s, "%AppName%", xml.属性値( project, "objectname" ) );
@@ -5655,6 +5966,19 @@ gui.buttonreset();
               s = Xreplace( s, "%AppName%", xml.属性値( project, "objectname" ) );
               SourceFile[ApplicationType].Xappend( s );
             } 
+            else  if( ApplicationType == 7 ){
+              StringBuffer clsbuf  = new StringBuffer("");
+              StringBuffer funcbuf = new StringBuffer("");
+              StringBuffer initbuf = new StringBuffer("");
+              compile_oregengo_R( treetool.top.element, clsbuf, funcbuf, initbuf, new Vector() );
+              String s = ImportFiles[ApplicationType]
+                       + clsbuf.toString() 
+                       + "\n_INIT_STATES:\n"+initbuf.toString()+"\n end\n"
+                       + ProgramStartupCode[ApplicationType]
+                       + funcbuf.toString();
+              s = Xreplace( s, "%AppName%", xml.属性値( project, "objectname" ) );
+              SourceFile[ApplicationType].Xappend( s );
+            } 
             else ;
             Login( cnode );
           }
@@ -5828,7 +6152,7 @@ System.gc();
     }
 
 
-// プロジェクトを開くする
+// プロジェクトを開く
     private void open(){
       if( saveWithDialog() != -1 ){
         XFileFilter filter = new XFileFilter( ProjectFileMode );
@@ -8164,6 +8488,8 @@ gui.buttonreset();
     JLabel         Lnativehelpcommand4;
     JPanel         properties4;
 
+    JLabel         Lidf_localvariable5;
+    JTextField   idf_localvariable5;
     JLabel         Lcompilecommand5;
     JTextField     compilecommand5;
     JLabel         Lruncommand5;
@@ -8191,6 +8517,22 @@ gui.buttonreset();
     JTextField     nativehelpcommand6;
     JLabel         Lnativehelpcommand6;
     JPanel         properties6;
+
+    JLabel         Lidf_localvariable7;
+    JTextField   idf_localvariable7;
+    JLabel         Lcompilecommand7;
+    JTextField     compilecommand7;
+    JLabel         Lruncommand7;
+    JTextField     runcommand7;
+    JLabel         Lguidesignercommand7;
+    JTextField     guidesignercommand7;
+    JLabel         Limportfiles7;
+    JTextArea      importfiles7;
+    JLabel         Lprogramstartupcode7;
+    JTextArea      programstartupcode7;
+    JTextField     nativehelpcommand7;
+    JLabel         Lnativehelpcommand7;
+    JPanel         properties7;
 
     JTabbedPane    tproperties;
     
@@ -8286,6 +8628,8 @@ gui.buttonreset();
       Lnativehelpcommand4  = new JLabel("androidマニフェスト");
       nativehelpcommand4   = new JTextArea(NativeHelpCommand[4]);
 
+      Lidf_localvariable5     = new JLabel("局所変数の識別子");
+      idf_localvariable5     = new JTextField(IDF_LocalVariable[5]);
       Lcompilecommand5     = new JLabel("コンパイラを起動するコマンド");
       compilecommand5      = new JTextField(CompileCommand[5]);
       Lruncommand5         = new JLabel("作成したプログラムを起動するコマンド");
@@ -8311,6 +8655,21 @@ gui.buttonreset();
       programstartupcode6  = new JTextArea(ProgramStartupCode[6]);
       Lnativehelpcommand6  = new JLabel("C言語のヘルプファイルを開くコマンド");
       nativehelpcommand6   = new JTextField(NativeHelpCommand[6]);
+
+      Lidf_localvariable7     = new JLabel("局所変数の識別子");
+      idf_localvariable7     = new JTextField(IDF_LocalVariable[7]);
+      Lcompilecommand7     = new JLabel("コンパイラを起動するコマンド");
+      compilecommand7      = new JTextField(CompileCommand[7]);
+      Lruncommand7         = new JLabel("作成したプログラムを起動するコマンド");
+      runcommand7          = new JTextField(RunCommand[7]);
+      Lguidesignercommand7 = new JLabel("GUIデザイナを起動するコマンド");
+      guidesignercommand7  = new JTextField(GUIDesignerCommand[7]);
+      Limportfiles7        = new JLabel("変数宣言など");
+      importfiles7         = new JTextArea(ImportFiles[7]);
+      Lprogramstartupcode7 = new JLabel("スタートアップコード");
+      programstartupcode7  = new JTextArea(ProgramStartupCode[7]);
+      Lnativehelpcommand7  = new JLabel("oregengo-Rのヘルプファイルを開くコマンド");
+      nativehelpcommand7   = new JTextField(NativeHelpCommand[7]);
 
       properties = new JPanel();
       properties.setLayout(new BoxLayout( properties, BoxLayout.Y_AXIS) );
@@ -8443,6 +8802,8 @@ gui.buttonreset();
 
       properties5 = new JPanel();
       properties5.setLayout(new BoxLayout( properties5, BoxLayout.Y_AXIS) );
+      properties5.add( Lidf_localvariable5);
+      properties5.add( idf_localvariable5);
       properties5.add( Lcompilecommand5);
       properties5.add( compilecommand5);
       properties5.add( Lruncommand5);
@@ -8483,6 +8844,29 @@ gui.buttonreset();
       JScrollPane s62 = new JScrollPane(properties6);
       s62.setPreferredSize(new Dimension(600,200) );
 
+      properties7 = new JPanel();
+      properties7.setLayout(new BoxLayout( properties7, BoxLayout.Y_AXIS) );
+      properties7.add( Lidf_localvariable7);
+      properties7.add( idf_localvariable7);
+      properties7.add( Lcompilecommand7);
+      properties7.add( compilecommand7);
+      properties7.add( Lruncommand7);
+      properties7.add( runcommand7);
+      properties7.add( Lguidesignercommand7);
+      properties7.add( guidesignercommand7);
+      properties7.add(Lnativehelpcommand7);
+      properties7.add(nativehelpcommand7);
+      properties7.add( Limportfiles7);
+      JScrollPane s70 = new JScrollPane(importfiles7);
+      s70.setPreferredSize( new Dimension( 560, 64 ));
+      properties7.add(s70);
+      properties7.add( Lprogramstartupcode7);
+      JScrollPane s71 = new JScrollPane(programstartupcode7);
+      s71.setPreferredSize( new Dimension( 560, 64 ));
+      properties7.add(s71);
+      JScrollPane s72 = new JScrollPane(properties7);
+      s72.setPreferredSize(new Dimension(600,200) );
+
       yesbutton     = new JButton("OK");;
       yesbutton.setActionCommand("YES");
       yesbutton.addActionListener(this);
@@ -8510,6 +8894,7 @@ gui.buttonreset();
       tproperties.addTab("android", s42);
       tproperties.addTab("Basic", s52);
       tproperties.addTab("C言語", s62);
+      tproperties.addTab("oregengo-R", s72);
       getContentPane().add(tproperties, BorderLayout.CENTER);
       getContentPane().add(selectbuttons, BorderLayout.SOUTH);
       pack();
@@ -8574,6 +8959,7 @@ gui.buttonreset();
         ProgramStartupCode[4] = programstartupcode4.getText();
         NativeHelpCommand[4] = nativehelpcommand4.getText();
 
+        IDF_LocalVariable[5] = idf_localvariable5.getText();
         CompileCommand[5] = compilecommand5.getText();
         RunCommand[5] = runcommand5.getText();
         GUIDesignerCommand[5] = guidesignercommand5.getText();
@@ -8587,6 +8973,14 @@ gui.buttonreset();
         ImportFiles[6] = importfiles6.getText();
         ProgramStartupCode[6] = programstartupcode6.getText();
         NativeHelpCommand[6] = nativehelpcommand6.getText();
+
+        IDF_LocalVariable[7] = idf_localvariable7.getText();
+        CompileCommand[7] = compilecommand7.getText();
+        RunCommand[7] = runcommand7.getText();
+        GUIDesignerCommand[7] = guidesignercommand7.getText();
+        ImportFiles[7] = importfiles7.getText();
+        ProgramStartupCode[7] = programstartupcode7.getText();
+        NativeHelpCommand[7] = nativehelpcommand7.getText();
 
         restoreProperty();
         setlookandfeel();
@@ -8647,6 +9041,7 @@ gui.buttonreset();
       programstartupcode4.setText(ProgramStartupCode[4]);
       nativehelpcommand4.setText(NativeHelpCommand[4]);
 
+      idf_localvariable5.setText(IDF_LocalVariable[5]);
       compilecommand5.setText(CompileCommand[5]);
       runcommand5.setText(RunCommand[5]);
       guidesignercommand5.setText(GUIDesignerCommand[5]);
@@ -8660,6 +9055,14 @@ gui.buttonreset();
       importfiles6.setText(ImportFiles[6]);
       programstartupcode6.setText(ProgramStartupCode[6]);
       nativehelpcommand6.setText(NativeHelpCommand[6]);
+
+      idf_localvariable7.setText(IDF_LocalVariable[7]);
+      compilecommand7.setText(CompileCommand[7]);
+      runcommand7.setText(RunCommand[7]);
+      guidesignercommand7.setText(GUIDesignerCommand[7]);
+      importfiles7.setText(ImportFiles[7]);
+      programstartupcode7.setText(ProgramStartupCode[7]);
+      nativehelpcommand7.setText(NativeHelpCommand[7]);
 
     }
 
@@ -10286,6 +10689,7 @@ gui.buttonreset();
     JRadioButton creandroid;
     JRadioButton crebasic;
     JRadioButton creclang;
+    JRadioButton creoregengo;
     JRadioButton fileopen;
 
     InitialDialog(){
@@ -10299,6 +10703,7 @@ gui.buttonreset();
       creandroid = new JRadioButton("androidアプリケーションを作成");
       crebasic = new JRadioButton("Basicアプリケーションを作成");
       creclang = new JRadioButton("C言語アプリケーションを作成");
+      creoregengo = new JRadioButton("oregengo-Rアプリケーションを作成");
       fileopen = new JRadioButton("プロジェクトファイルを開く");
       creapplication.setSelected(true);
       creapplet.setSelected(false);
@@ -10307,6 +10712,7 @@ gui.buttonreset();
       creandroid.setSelected(false);
       crebasic.setSelected(false);
       creclang.setSelected(false);
+      creoregengo.setSelected(false);
       fileopen.setSelected(false);
       ButtonGroup g = new ButtonGroup();
       g.add(creapplication);
@@ -10316,6 +10722,7 @@ gui.buttonreset();
       g.add(creandroid);
       g.add(crebasic);
       g.add(creclang);
+      g.add(creoregengo);
       g.add(fileopen);
       creapplication.setSelected( ApplicationType == 0 );
       creapplet.setSelected( ApplicationType == 1 );
@@ -10324,6 +10731,7 @@ gui.buttonreset();
       creandroid.setSelected( ApplicationType == 4 );
       crebasic.setSelected( ApplicationType == 5 );
       creclang.setSelected( ApplicationType == 6 );
+      creoregengo.setSelected( ApplicationType == 7 );
       JPanel p1 = new JPanel( );
       p1.setLayout( new BoxLayout( p1, BoxLayout.Y_AXIS ) ); 
       p1.add( creapplication );
@@ -10333,6 +10741,7 @@ gui.buttonreset();
       p1.add( creandroid );
       p1.add( crebasic );
       p1.add( creclang );
+      p1.add( creoregengo );
       p1.add( fileopen );
       JButton ok = new JButton( "OK" );
       JButton can  = new JButton( "キャンセル"  );
@@ -10361,6 +10770,7 @@ gui.buttonreset();
       creandroid.setSelected( ApplicationType == 4 );
       crebasic.setSelected( ApplicationType == 5 );
       creclang.setSelected( ApplicationType == 6 );
+      creoregengo.setSelected( ApplicationType == 7 );
       fileopen.setSelected(false);
 
       // ウィンドウの中央をもとめる
@@ -10390,6 +10800,7 @@ gui.buttonreset();
         else if( creandroid.isSelected() ) mode = 4;
         else if( crebasic.isSelected() ) mode = 5;
         else if( creclang.isSelected() ) mode = 6;
+        else if( creoregengo.isSelected() ) mode = 7;
         else if( fileopen.isSelected() ) mode = -2;
       } 
       else if( e.getActionCommand().equals( "CAN" ) )mode = -1;
