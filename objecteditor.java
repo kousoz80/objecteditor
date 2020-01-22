@@ -355,7 +355,7 @@ class App1{
                           + " }\n";
     ProgramStartupCode[4] = " Activity ACTIVITY;\n";
 
-    IDF_LocalVariable[5]="%";
+    IDF_LocalVariable[5]="\\";
     CompileCommand[5] = "";
     RunCommand[5] = "";
     GUIDesignerCommand[5] = "";
@@ -464,7 +464,7 @@ class App1{
     ProgramStartupCode[4] = ((t=xml.属性値( properties, "ProgramStartupCode4" ))==null?"":t);
     NativeHelpCommand[4] = ((t=xml.属性値( properties, "NativeHelpCommand4" ))==null?"":t);
 
-    IDF_LocalVariable[5] = ((t=xml.属性値( properties, "IDF_LocalVariable5" ))==null?"%":t);
+    IDF_LocalVariable[5] = ((t=xml.属性値( properties, "IDF_LocalVariable5" ))==null?"\\":t);
     CompileCommand[5] = ((t=xml.属性値( properties, "CompileCommand5" ))==null?"":t);
     RunCommand[5] = ((t=xml.属性値( properties, "RunCommand5" ))==null?"":t);
     GUIDesignerCommand[5] = ((t=xml.属性値( properties, "GUIDesignerCommand5" ))==null?"":t);
@@ -1461,9 +1461,9 @@ class App1{
     String comp_name = xml.要素のID( element );
 
     if( element_name.equals("codeclip") ){
-      String parent = getAbsoluteName2( xml.親要素( element ) );
+      String id = getAbsoluteName2( element  );
       String buf = xml.属性値( element, "codetext" ) + "\n";
-      buf = Xreplace( buf, IDF_LocalVariable[5], parent );
+      buf = Xreplace( buf, IDF_LocalVariable[5], id );
       clsbuf.append( buf );
     }
 
@@ -1970,9 +1970,9 @@ class App1{
     String comp_name = xml.要素のID( element );
 
     if( element_name.equals("codeclip") ){
-      String parent = getAbsoluteName2( xml.親要素( element ) );
+      String id = getAbsoluteName2( element );
       String buf = xml.属性値( element, "codetext" ) + "\n";
-      buf = Xreplace( buf, IDF_LocalVariable[7], parent );
+      buf = Xreplace( buf, IDF_LocalVariable[7], id );
       clsbuf.append( buf );
     }
 
