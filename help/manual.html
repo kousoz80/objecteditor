@@ -108,12 +108,7 @@ android端末製造元からダウンロード<br>
 このSDKにはeclipseが含まれています。eclipseはかなり高機能な開発ツールで、大抵のことはこれひとつで十分です。<br>
 もしeclipseで満足だと思うのでしたら、そちらを使用したほうがよいと思います。<br><br>
 
-(5) Ant <br>
-<a href="http://www.jajakarta.org/ant/ant-1.6.1/docs/ja/">http://www.jajakarta.org/ant/ant-1.6.1/docs/ja/</a>からダウンロード<br><br>
 <br>
-Java, android SDK, 
-Antの環境設定は以下のページを参考にしました（さくらやま様ありがとうございました）<br>
-<a href="http://izeef.web.fc2.com/develop/android/env_ant.html">http://izeef.web.fc2.com/develop/android/env_ant.html</a><br>
 
 
  
@@ -447,36 +442,13 @@ GUIオブジェクトのレイアウトを変更したいときは、GUIオブ�
 <a name="#compileerror"></a>
 <strong><br>
 androidプログラムについて<br>
+</strong>
+（1）androidプログラムのデバッグには実機をＵＳＢ接続する必要があります<br><br>
+（2）コンパイルする前にプラットフォームの"android.jar"ファイルを作業フォルダにコピーする必要があります<br><br>
+<img align="baseline" alt="android.jar" border="0" hspace="0" src="data/android-jar.jpg">
 
-</strong>（１） 
-androidプログラムのデバッグには実機をＵＳＢ接続する必要があります
-
-<br>
-（２）&nbsp;コンパイルで以下のようなエラーメッセージが出る場合<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-[dx] Error occurred during initialization of 
-VM<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [dx] Could not reserve enough space 
-for object heap<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [dx] Error: Could not 
-create the Java Virtual Machine.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [dx] 
-Error: A fatal exception has occurred. Program will 
-exit.<br>
-<br>
-原因<br>
-パソコンのメモリが足りません<br>
-<br>
-対処方<br>
-android 
-SDK以下のフォルダにあるファイル"dx.bat"の<br>
  
-"setdefaultXmx=
- 
-
- -Xmx1024M"と書かれている部分を、&lt;BR&gt;"set 
-defaultXmx=-Xmx128M"に書き換えると<br>
-少ないメモリのマシンでも動くようになります。<br>
+<br>
 <br>
 
 <br>
