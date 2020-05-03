@@ -3,6 +3,8 @@ rm -r classes/*
 rm -r build/*
 rm -r src/*
 rm -r apk/*
+rm -r  res/drawable/*
+rm -r /res/raw/*
 
 echo create manifest:
 java -jar replace.jar HelloWorld $1 AndroidManifest.xml tmp
@@ -13,7 +15,6 @@ java -jar replace.jar HelloWorld $1 javatext.java tmp
 java -jar replace.jar com.example.test $2.$3.$4 tmp src/$1.java 
 
 echo copy icon
-rm -r  res/drawable
 mkdir res/drawable
 cp ic_launcher.png res/drawable
 
@@ -30,10 +31,10 @@ echo dx:
 dx --dex --verbose --no-strict --output=build/classes.dex classes/$2
 
 echo apkbuilder:
-apkbuilder apk/$1.apk -v -u -z build/resources.res -f build/classes.dex 
+apkbuilder /apk/$1.apk -v -u -z build/resources.res -f build/classes.dex 
 
 echo signer:
-jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 apk/$1.apk androiddebugkey
+jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 /apk/$1.apk androiddebugkey
 
-chmod 777 apk/* 
+chmod 777 /apk/* 
 echo compile end
