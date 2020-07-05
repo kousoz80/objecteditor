@@ -1,10 +1,11 @@
+#!/bin/sh
 echo clean:
 rm -r classes/*
 rm -r build/*
 rm -r src/*
-rm -r apk/*
-rm -r  res/drawable/*
-rm -r /res/raw/*
+rm -r res/drawable/*
+rm -r res/raw/*
+rm -r res/values/*
 
 echo create manifest:
 java -jar replace.jar HelloWorld $1 AndroidManifest.xml tmp
@@ -21,20 +22,21 @@ cp ic_launcher.png res/drawable
 echo set app_name:
 java -jar replace.jar Test $1 strings.xml res/values/strings.xml
 
-echo aapt:
+echo create project:
 aapt p -f -v -M AndroidManifest.xml -F build/resources.res -I android.jar -S res/ -J src
 
 echo javac:
-javac -d classes ./src/$1.java ./src/R.java 
+javac -classpath android.jar -d classes src/$1.java src/R.java 
 
 echo dx:
-dx --dex --verbose --no-strict --output=build/classes.dex classes/$2
+dx --dex --verbose --no-strict --output=classes.dex classes/$2
 
-echo apkbuilder:
-apkbuilder /apk/$1.apk -v -u -z build/resources.res -f build/classes.dex 
+echo build apk:
+aapt package -f -M AndroidManifest.xml -S res/ -I android.jar -F $APK_DIR/$1.apk
+aapt add $APK_DIR/$1.apk classes.dex
+
 
 echo signer:
-jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 /apk/$1.apk androiddebugkey
+jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 $APK_DIR/$1.apk androiddebugkey
 
-chmod 777 /apk/* 
 echo compile end

@@ -1,2 +1,3 @@
-cd .
+#!/bin/sh
+cd $OBJEDIT_HOME
 java -jar objedit.jar
