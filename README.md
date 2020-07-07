@@ -60,5 +60,13 @@ https://androidsdkmanager.azurewebsites.net/SDKPlatform
   
 ![enter image description here](https://imgur.com/GY0afbj.jpg)  
   
-  最後にダウンロードしたツールの実行ファイルのある場所にパスを通せばandroid開発ツールが使用できる状態になります。
+  次ににダウンロードしたツールの実行ファイルのある場所にパスを通せばandroid開発ツールが使用できる状態になります。
+  
+そして、最後にapkファイルに署名するためのキーストアを生成します。以下のコマンドをタイプして下さい。
+  
+  keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+  
+  パスワードの入力を求められたら"android"と入力して下さい。
+  
+  これでandroidアプリケーションの開発ができるようになります。
   

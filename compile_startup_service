@@ -33,11 +33,12 @@ javac -d classes ./src/$1.java ./src/BootCompletedReceiver.java ./src/R.java
 echo dx:
 dx --dex --verbose --no-strict --output=build/classes.dex classes/$2
 
-echo apkbuilder:
-apkbuilder /apk/$1.apk -v -u -z build/resources.res -f build/classes.dex 
+echo build apk:
+aapt package -f -M AndroidManifest.xml -S res/ -I android.jar -F $APK_DIR/$1.apk
+aapt add $APK_DIR/$1.apk classes.dex
 
 echo signer:
-jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 /apk/$1.apk androiddebugkey
+jarsigner -verbose -keystore debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 /apk/$1.apk androiddebugkey
 
 chmod 777 /apk/* 
 echo compile end

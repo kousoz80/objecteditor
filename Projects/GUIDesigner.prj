@@ -115,11 +115,20 @@ Starinに信号が入力されたらID_makerを０にしてStartOutに信号を�
 // 判別
 ID_maker = 0;
 AppTyp = 0;
+
+
 if(ARGS.length != 0 ){
   if( ARGS[0].equals( &quot;-java&quot; ) )    AppTyp=0;
   if( ARGS[0].equals( &quot;-applet&quot; ) )  AppTyp=1;
   if( ARGS[0].equals( &quot;-cpp&quot; ) )     AppTyp=2;
   if( ARGS[0].equals( &quot;-android&quot; ) ) AppTyp=3;
+}
+
+// Look&amp;FeelをMetalに変更する
+try {
+UIManager.setLookAndFeel(new MetalLookAndFeel());
+} catch (UnsupportedLookAndFeelException e) {
+e.printStackTrace();
 }
 </codetext>
 </operation>
@@ -55076,7 +55085,8 @@ inbutton(String s){
 ((XJButton)this).ImageFile = null;
 setText(s);
 setOpaque(true);
-setMargin( new Insets(1,1,1,1) );
+setMargin( new Insets(0,0,0,0) );
+setBorder(new LineBorder(Color.BLACK, 1, false));
 setBackground(Color.lightGray);
 addMouseListener(this);
 addMouseMotionListener(this);
@@ -55188,8 +55198,8 @@ if( fld.hasMoreTokens() ) btn.super_class[AppTyp] = fld.nextToken();
 <ID>_P27</ID>
 <x0>28</x0>
 <y0>405</y0>
-<width>84</width>
-<height>28</height>
+<width>108</width>
+<height>27</height>
 <text>Load(String s)</text>
 <px>57</px>
 <py>135</py>
@@ -72088,7 +72098,7 @@ JTextField xxscale;
 <MainWinHeight>740</MainWinHeight>
 <MesgWinx0>0</MesgWinx0>
 <MesgWiny0>0</MesgWiny0>
-<MesgWinWidth>1032</MesgWinWidth>
+<MesgWinWidth>1024</MesgWinWidth>
 <MesgWinHeight>745</MesgWinHeight>
 <FileWinx0>36</FileWinx0>
 <FileWiny0>478</FileWiny0>
@@ -72134,6 +72144,7 @@ import javax.swing.filechooser.*;
  import java.util.*;
 import java.awt.image.BufferedImage;
 import javax.sound.sampled.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 class Starter{
   public static void main( String args[] ){
@@ -72334,5 +72345,13 @@ int main( int argc, char** argv ){
 }
 </ProgramStartupCode6>
 <NativeHelpCommand6></NativeHelpCommand6>
+<IDF_LocalVariable5>\</IDF_LocalVariable5>
+<IDF_LocalVariable7>\</IDF_LocalVariable7>
+<CompileCommand7></CompileCommand7>
+<RunCommand7></RunCommand7>
+<GUIDesignerCommand7></GUIDesignerCommand7>
+<ImportFiles7></ImportFiles7>
+<ProgramStartupCode7></ProgramStartupCode7>
+<NativeHelpCommand7></NativeHelpCommand7>
 </プロパティ>
 </xobject>

@@ -1,4 +1,3 @@
-#!/bin/sh
 echo clean:
 rm -r classes/*
 rm -r build/*
@@ -37,6 +36,6 @@ aapt add $APK_DIR/$1.apk classes.dex
 
 
 echo signer:
-jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 $APK_DIR/$1.apk androiddebugkey
+jarsigner -verbose -keystore debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 $APK_DIR/$1.apk androiddebugkey
 
 echo compile end
