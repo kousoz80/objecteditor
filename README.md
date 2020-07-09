@@ -70,3 +70,9 @@ https://androidsdkmanager.azurewebsites.net/SDKPlatform
   
   これでandroidアプリケーションの開発ができるようになります。
   
+  ※注意
+  
+  最新のJavaコンパイラを使用すると"classes.dex"ファイル作成時に"invalid op code"エラーが出るようなので、JDKのバージョンは古い方が良さそうです。(私はこれを使いました)
+
+http://jdk.java.net/java-se-ri/8-MR3
+
