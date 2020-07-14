@@ -24873,7 +24873,7 @@ public void mouseMoved(MouseEvent e){}
 <y0>41</y0>
 <width>166</width>
 <height>128</height>
-<ID_maker>27</ID_maker>
+<ID_maker>28</ID_maker>
 <objectname>HSlderResizable</objectname>
 <description>水平スライダ(可変サイズ)</description>
 <relation>
@@ -25187,8 +25187,8 @@ if( fld.hasMoreTokens() ) hsldr.super_class[AppTyp] = fld.nextToken();
 <width>85</width>
 <height>31</height>
 <text>Load(String s)</text>
-<px>5</px>
-<py>153</py>
+<px>15</px>
+<py>159</py>
 </pin>
 <action>
 <ID>_A28</ID>
@@ -25226,8 +25226,8 @@ if( fld.hasMoreTokens() ) hsldr.super_class[AppTyp] = fld.nextToken();
 <width>233</width>
 <height>24</height>
 <text>key_pressed( Component c, int key)</text>
-<px>10</px>
-<py>40</py>
+<px>50</px>
+<py>137</py>
 </pin>
 </aobject>
 <pin>
@@ -25252,8 +25252,8 @@ if( fld.hasMoreTokens() ) hsldr.super_class[AppTyp] = fld.nextToken();
 </pin>
 <pin>
 <ID>_P20</ID>
-<x0>23</x0>
-<y0>183</y0>
+<x0>25</x0>
+<y0>191</y0>
 <width>87</width>
 <height>26</height>
 <text>Load(String s)</text>
@@ -25591,6 +25591,11 @@ c.repaint();
 <ID>_R25</ID>
 <pin1name>_AX3(_P31)</pin1name>
 <pin2name>_A22(_P11)</pin2name>
+</relation>
+<relation>
+<ID>_R27</ID>
+<pin1name>_AX3(_P32)</pin1name>
+<pin2name>_A22(_P14)</pin2name>
 </relation>
 </xobject>
 <relation>
